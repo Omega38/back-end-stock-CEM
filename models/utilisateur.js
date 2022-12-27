@@ -8,7 +8,7 @@ const pool = new Pool({
 })
 
 const getUser = (request, response) => {
-  pool.query('SELECT * FROM utilisateur ORDER BY id_user ASC', (error, results) => {
+  pool.query('SELECT * FROM utilisateur INNER JOIN  compte_user ON utilisateur.num_compte = compte_user.num_compte ORDER BY id_user ASC', (error, results) => {
     if (error) {
       throw error
     }
@@ -17,9 +17,10 @@ const getUser = (request, response) => {
 }
 
 const createUser = (request, response) => {
-  const { id_compte_user, code_user, nom_user, emplacement_user } = request.body
+  const { num_compte, code_user, nom_user, departement } = request.body
 
-  pool.query('INSERT INTO utilisateur (id_compte_user, code_user, nom_user, emplacement_user) VALUES ($1, $2, $3, $4)', [id_compte_user, code_user, nom_user, emplacement_user], (error, results) => {
+  pool.query('INSERT INTO utilisateur (code_user, nom_user, departement, num_compte) VALUES ($1, $2, $3, $4)',
+  [code_user, nom_user, departement, num_compte], (error, results) => {
     if (error) {
       throw error
     }
@@ -29,11 +30,10 @@ const createUser = (request, response) => {
 
 const updateUser = (request, response) => {
   const id_user = parseInt(request.params.id_user)
-  const { id_compte_user, code_user, nom_user, emplacement_user } = request.body
-
+  const { code_user, nom_user, departement } = request.body
   pool.query(
-    'UPDATE utilisateur SET  id_compte_user = $1, code_user = $2, nom_user = $3, emplacement_user = $4 WHERE id_user = $5',
-    [id_compte_user, code_user, nom_user, emplacement_user, id_user],
+    'UPDATE utilisateur SET code_user = $1, nom_user = $2, departement = $3 WHERE id_user = $4',
+    [code_user, nom_user, departement, id_user],
     (error, results) => {
       if (error) {
         throw error

@@ -26,7 +26,37 @@ const createRole = (request, response) => {
     response.status(201).send(`Role ajouter avec ID: ${results.id_role}`)
   })
 }
+
+const updateRole = (request, response) => {
+  const id_role = parseInt(request.params.id_role)
+  const { nom_role } = request.body
+
+  pool.query(
+    'UPDATE roles SET  nom_role = $1 WHERE id_role = $2',
+    [nom_role, id_role],
+    (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).send(`role modifier avec ID: ${id_role}`)
+    }
+  )
+}
+
+const deleteRole = (request, response) => {
+  const id_role = parseInt(request.params.id_role)
+
+  pool.query('DELETE FROM roles WHERE id_role = $1', [id_role], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).send(`Role supprimer avec ID: ${id_role}`)
+  })
+}
+
 module.exports = {
+    deleteRole,
+    updateRole,
     getRole,
     createRole,
 }
