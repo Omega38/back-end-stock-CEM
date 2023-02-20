@@ -62,7 +62,8 @@ const updateDemande = (request, response) => {
 const deleteDemande = (request, response) => {
   const id_demande = parseInt(request.params.id_demande)
 
-  pool.query('DELETE FROM demande WHERE id_demande = $1', [id_demande], (error, results) => {
+  pool.query('DELETE FROM demande WHERE id_demande = $1',
+   [id_demande], (error, results) => {
     if (error) {
       throw error
     }

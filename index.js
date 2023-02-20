@@ -60,6 +60,7 @@ app.get('/entree_stock_montant/:date_debut/:date_fin', entree_stock_montant.getE
 app.get('/stock', stock.getStock)
 app.get('/stock/:date_debut/:date_fin', stock.getStockByDate)
 app.post('/stock', stock.createStock)
+// app.put('/stock/:designation', stock.updateStock)
 
 //roles
 app.get('/roles', role.getRole)
